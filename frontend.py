@@ -1,25 +1,44 @@
-import os
-import sys
 import argparse
-from backend import copy, delete
+from backend import GodOfConsole
 
 parser = argparse.ArgumentParser('Simple file manager')
 
 subparser = parser.add_subparsers(dest='command', required=True)
 
-parser_add = subparser.add_parser('copy', help='Copy files')
-parser_add.add_argument('file_name', type=str, help='file value')
-parser_add.add_argument('file_format', type=str, help='file format')
-parser_add.set_defaults(func=copy)
+#copy
+parser_add = subparser.add_parser('copy', help='Copy file in workdirectory')
+parser_add.add_argument('path', type=str, help='absolute path to file or filename in workdirectory')
+parser_add.set_defaults(func=GodOfConsole.copy_file)
 
-parser_delete = subparser.add_parser('delete', help='Delete files')
-parser_delete.add_argument('file_name', type=str, help='file value')
-parser_delete.add_argument('file_format', type=str, help='file format')
-parser_delete.set_defaults(func=delete)
+#delete
+parser_delete = subparser.add_parser('delete', help='Delete file or all files in directory')
+parser_delete.add_argument('path', type=str, help='file value')
+parser_delete.set_defaults(func=GodOfConsole.delete_file_or_dir)
 
+#filecount_in_dir
+parser_filecount_in_dir = subparser.add_parser('filecount_in_dir', help='Return count files in directory')
+parser_filecount_in_dir.add_argument('path', type=str, help='absolute path or dirname in workdirectory')
+parser_filecount_in_dir.set_defaults(func=GodOfConsole.filecount_in_dir)
+
+#find_files
+parser_find_files = subparser.add_parser('find_files', help='Find files in directory with mask')
+parser_find_files.add_argument('path', type=str, help='file value')
+parser_find_files.add_argument('mask', type=str, help='file value')
+parser_find_files.set_defaults(func=GodOfConsole.find_files)
+
+#rename_file
+parser_rename_file = subparser.add_parser('rename_file', help='Renaming a file with the date the file was created')
+parser_rename_file.add_argument('path', type=str, help='file value')
+parser_rename_file.set_defaults(func=GodOfConsole.rename_file)
+
+#rename_files_in_dir
+parser_rename_files_in_dir = subparser.add_parser('rename_files_in_dir', help='Renaming a files in dir with the date the file was created')
+parser_rename_files_in_dir.add_argument('path', type=str, help='file value')
+parser_rename_files_in_dir.set_defaults(func=GodOfConsole.rename_files_in_dir)
 
 args = parser.parse_args()
-#print(args)
-args.func(args.file_name, args.file_format)
+args.func(args)
+
+
 
 
