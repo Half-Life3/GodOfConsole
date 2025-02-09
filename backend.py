@@ -64,16 +64,10 @@ class GodOfConsole:
 
     def copy_file(self, path: str) -> bool:
         """(легкое) команда, которая позволяет копировать файл(пример использования: manager copy test.txt"""
-        if self.is_absolute_path(path) or self.check_filename_format(path):
-            source_path = os.path.join(self.getworkdirectory(), self.get_filename_from_path(path))
-            destination_path = os.path.join(self.workdirectory, f'copy_{self.get_filename_from_path(path)}')
-            if os.path.exists(source_path):
-                shutil.copyfile(source_path, destination_path)
-                print(f'Файл "{self.get_filename_from_path(path)}" успешно скопирован в "{self.workdirectory}"')
-                return True
-            else:
-                print(f'Указанный файл "{self.get_filename_from_path(path)}" не найден')
-                return False
+        if self.check_data_format(path) == 'Это файл':
+            shutil.copyfile(path, self.getworkdirectory())
+            print(f'Файл "{self.get_filename_from_path(path)}" успешно скопирован в "{self.workdirectory}"')
+
         else:
             print('Error in copy method')
 
