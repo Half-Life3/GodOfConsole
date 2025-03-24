@@ -1,6 +1,7 @@
 import unittest
 import os
 import backend
+from backend import GodOfConsole
 
 
 class TestBackend(unittest.TestCase):
@@ -10,26 +11,35 @@ class TestBackend(unittest.TestCase):
     def tearDown(self):
         backend.clear_env()
 
-    def test_workdirectory(self):
-        actual_data = os.getcwd()
-        expected_data = r'X:\Projects\GodOfConsole'
-        self.assertEqual(actual_data, expected_data)
 
     def test_prepare_environment(self):
         expect_data = ['test.txt']
         actual_data = os.listdir(os.path.join(os.getcwd(), 'experiment_directory'))
+        print(f'{expect_data} соответствует {actual_data}')
         self.assertEqual(actual_data, expect_data)
 
     def test_copy(self):
-        # copy_file_in_workdir('test.txt')
-        source_path = os.path.join(os.getcwd(), 'experiment_directory')
-        self.assertEqual(os.listdir(source_path), ['copy_test.txt', 'test.txt'])
+        expect_data = ['test.txt', 'test_copy.txt']
+        destinatation = os.path.join(os.getcwd(), 'experiment_directory')
+        GodOfConsole.set_workdirectory(destinatation)
+        GodOfConsole.copy_file(userdata='test.txt', destination_path=destinatation)
+        actual_data = os.listdir(os.path.join(os.getcwd(), 'experiment_directory'))
+        print(f'{expect_data} соответствует {actual_data}')
+        self.assertEqual(expect_data, actual_data)
 
     def test_delete_file(self):
-        pass
+        expect_data = []
+        userdata = os.path.join(os.getcwd(), 'experiment_directory', 'test.txt')
+        GodOfConsole.delete_file_or_dir(userdata=userdata)
+        actual_data = os.listdir(os.path.join(os.getcwd(), 'experiment_directory'))
+        print(f'{expect_data} соответствует {actual_data}')
+        self.assertEqual(expect_data, actual_data)
 
     def test_delete_dir(self):
-        pass
+        userdata = os.path.join(os.getcwd(), 'experiment_directory')
+        GodOfConsole.delete_file_or_dir(userdata=userdata)
+        self.assertEqual(False, os.path.exists(userdata))
+        os.mkdir(userdata)
 
     def test_check_data_format_fileExist(self):
         object1 = backend.GodOfConsole()

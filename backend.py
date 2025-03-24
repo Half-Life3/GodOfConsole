@@ -19,6 +19,7 @@ def prepare_env():
 
 
 def clear_env():
+
     GodOfConsole.delete_filled_dir(GodOfConsole, 'experiment_directory')
     return print('Каталог Experiment удален \n _____________________________')
 
@@ -50,6 +51,8 @@ class GodOfConsole:
             cls._destination = cls.get_workdirectory()
         elif os.path.exists(value):
             cls._destination = value
+            print(f'destination set to {cls._destination}')
+
         else:
             print('Путь не существует')
 
@@ -94,13 +97,16 @@ class GodOfConsole:
 
     def delete_filled_dir(cls, top: str) -> bool:
         """Method from os doc"""
-        for root, dirs, files in os.walk(top, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root, name))
-            for name in dirs:
-                os.rmdir(os.path.join(root, name))
-        os.rmdir(top)
-        return True
+        if os.path.exists(top):
+            for root, dirs, files in os.walk(top, topdown=False):
+                for name in files:
+                    os.remove(os.path.join(root, name))
+                for name in dirs:
+                    os.rmdir(os.path.join(root, name))
+            os.rmdir(top)
+            return True
+        else:
+            raise FileNotFoundError
 
     @classmethod
     def copy_file(cls, userdata: str, destination_path: str = None):
