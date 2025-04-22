@@ -151,7 +151,7 @@ class GodOfConsole:
         for root, dirs, files in os.walk(path):
             for file in files:
                 if regex.search(file):
-                    print(f'{root}{file}')
+                    print(f'{root}{file}\n')
                     matching_files.append(os.path.join(root, file))
 
         return print(matching_files)
