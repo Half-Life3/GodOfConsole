@@ -1,2 +1,7 @@
 /.venv/
 /test/
+# Игнорировать директорию __pycache__
+__pycache__/
+
+# Игнорировать директорию .idea (PyCharm)
+.idea/
